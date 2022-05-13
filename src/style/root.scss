@@ -1,0 +1,99 @@
+
+
+:root{
+  --v-black: #000000;
+  --v-black-900: #181818;
+  --v-black-800: #282828;
+  --v-black-700: #2C2C2C;
+  --v-gray-800: #7B7B7B;
+  --v-gray-500: #F3F3F3;
+  --v-gray-400: #F7F7F7;
+  --v-gray-300: #F9F9F9;
+  --v-gray-200: #B6B6B6;
+  --v-white: #FFFFFF;
+  --v-yellow-900: #FE5F1E;
+  --v-yellow-300: #FFDF8C;
+}
+
+body{
+  background: var(--v-yellow-300);
+  border: none;
+  padding: 43px;
+  margin: 0;
+  transition: all 300ms ease-in 0s;
+  font-size: 15px;
+  font-family: 'Inter', Arial, 'Proxima Nova', sans-serif;
+}
+h1, p {
+  margin: 0;
+}
+
+.el-button--yellow{
+  --el-button-text-color: var(--v-white);
+  --el-button-bg-color: var(--v-yellow-900);
+  --el-button-border-color: var(--v-yellow-900)!important;
+  --el-button-hover-text-color: var(--v-white);
+    --el-button-hover-bg-color: #fe5f1ee3;
+    --el-button-hover-border-color: #fe5f1ee3;
+    --el-button-active-text-color: var(--v-white);
+    --el-button-active-border-color: #fe5f1ee3;
+    --el-button-active-bg-color: #fe5f1ee3;
+  padding: 15px 23px;
+  &:hover{
+    color: var(--v-white);
+  }
+}
+
+.el-dropdown-menu__item{
+  font-family: 'Proxima Nova';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  letter-spacing: 0.015em;
+  color: var(--v-black);
+}
+
+.active-item, .dropdown-item:hover{
+  background: rgba(254, 95, 30, 0.05);
+  font-family: 'Proxima Nova';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 17px;
+  letter-spacing: 0.015em;
+  color: var(--v-yellow-900);
+}
+
+
+.el-button:not(.is-text):focus, .el-button:not(.is-text):hover, .active-btn-gray {
+  color: var(--el-button-hover-text-color);
+  border-color: var(--el-button-hover-border-color);
+  background-color: var(--el-button-hover-bg-color);
+  outline: 0;
+}
+
+.el-button--gray.is-plain, .el-button--gray.is-text {
+  --el-button-text-color: var(--v-black-700);
+  --el-button-bg-color: var(--v-gray-300);
+  --el-button-border-color: var(--v-gray-300);
+  --el-button-hover-text-color: var(--v-white);
+  --el-button-hover-bg-color: var(--v-black-800);
+  --el-button-hover-border-color: var(--v-black-800);
+  --el-button-active-text-color: var(--v-white);
+  font-family: 'Proxima Nova Th';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 19px;
+  text-align: center;
+  letter-spacing: 0.015em;
+  height: 46px;
+}
+
+.active-btn-gray {
+  color: var(--v-white);
+  border-color: var(--el-button-hover-border-color)!important;
+  background-color: var(--v-black-800)!important;
+  outline: 0;
+}

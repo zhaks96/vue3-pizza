@@ -1,18 +1,23 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
+    <SortView/>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-import HelloWorld from '@/components/HelloWorld.vue'; // @ is an alias to /src
+import { defineComponent, } from 'vue';
+import SortView from '@/components/SortView.vue'
 
 export default defineComponent({
   name: 'Home',
-  components: {
-    HelloWorld,
-  },
-});
+  components: {SortView},
+},);
 </script>
+
+<style lang="scss" scoped>
+.home{
+  display: flex;
+  flex-direction: column;
+  padding: 0 48px;
+}
+</style>
