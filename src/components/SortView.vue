@@ -7,7 +7,6 @@
         :class="{'active-btn-gray': checkedSortByPizza === sortByPizza.type}"
         @click="checkedSortByPizza = sortByPizza.type">{{sortByPizza.name}}</el-button>
     </div>
-    {{checkedSortByPizza}}
     <div class="container-sort__block2">
       <el-icon style="margin-right: 7px;"><caret-bottom /></el-icon>
       <span class="sort-text">Сортировка по:</span>
