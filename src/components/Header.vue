@@ -9,11 +9,11 @@
     </div>
     <el-button class="el-button--yellow" size="large" round>
       <div class="basket-block">
-        <span class="price">520 ₽</span>
+        <span class="price">{{ pizzaBasketItems.totalPrice }} ₸</span>
         <span class="border-vertical"></span>
         <div class="basket-block__inner">
           <basket />
-          <span>3</span>
+          <span>{{ pizzaBasketItems.totalCount }}</span>
         </div>
       </div>
     </el-button>
@@ -22,12 +22,19 @@
 
 <script lang="ts">
 import basket from '@/icons/basket.vue'
-import { defineComponent, } from 'vue'
+import { computed, defineComponent, } from 'vue'
+import { useStore } from 'vuex'
 
 export default defineComponent({
   components: { basket, },
-  setup(props,) {
-    console.log(props,)
+  setup() {
+    const store = useStore()
+
+    const pizzaBasketItems = computed(() => store.state)
+
+    return {
+      pizzaBasketItems
+    }
   },
 },)
 </script>

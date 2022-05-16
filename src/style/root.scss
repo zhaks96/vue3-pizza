@@ -12,6 +12,7 @@
   --v-gray-200: #B6B6B6;
   --v-white: #FFFFFF;
   --v-yellow-900: #FE5F1E;
+  --v-yellow-800: #EB5A1E;
   --v-yellow-300: #FFDF8C;
 }
 
@@ -96,4 +97,21 @@ h1, p {
   border-color: var(--el-button-hover-border-color)!important;
   background-color: var(--v-black-800)!important;
   outline: 0;
+}
+
+.el-button--yellow-outline.is-plain, .el-button--gray.is-text {
+  --el-button-text-color: var(--v-yellow-800);
+  --el-button-bg-color: var(--v-white);
+  --el-button-border-color: var(--v-yellow-800);
+  --el-button-hover-text-color: var(--v-white);
+  --el-button-hover-bg-color: var(--v-yellow-800);
+  --el-button-hover-border-color: var(--v-yellow-800);
+  --el-button-active-text-color: var(--v-white);
+  font-family: 'Proxima Nova Th';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 19px;
+  text-align: center;
+  letter-spacing: 0.015em;
 }

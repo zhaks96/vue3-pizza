@@ -7,6 +7,8 @@ interface Pizzas {
   rating: number;
   sizes: Array<number>;
   types: Array<number>;
+  selectedType: number;
+  selectedSize: number;
 }
 
 export default Pizzas
