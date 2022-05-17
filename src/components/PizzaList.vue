@@ -1,6 +1,6 @@
 <template>
   <div class="pizza-list-container">
-    <div v-for="item in pizzaList" :key="`pizza-${item.id}`" class="pizza-list-wrap">
+    <div v-for="item in sortedPizzas" :key="`pizza-${item.id}`" class="pizza-list-wrap">
       <el-image class="pizza-img" :src="item.imageUrl" fit="contain" />
       <h4>{{ item.name }}</h4>
       <div class="pizza-types-size">
@@ -18,7 +18,7 @@
       </div>
       <div class="pizza-footer">
         <span class="price">от {{item.price}} ₸</span>
-        <el-button round plain size="large" type="yellow-outline" @click="addPizzaBasket(item)">
+        <el-button round plain size="large" type="warning" @click="addPizzaBasket(item)">
           <el-icon style="margin-right: 8px"><Plus /></el-icon> Добавить
           <span class="basket-count" v-if="pizzaBasketItems && pizzaBasketItems[item.id]">
             {{ pizzaBasketItems[item.id].totalCount }}
@@ -30,7 +30,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref } from 'vue'
+import { computed, defineComponent, reactive, ref } from 'vue'
 import { useStore } from 'vuex'
 import pizzas from '@/assets/pizzas'
 import Pizzas from '@/types/Pizzas'
@@ -46,17 +46,23 @@ export default defineComponent({
         selectedSize: 26
       }
     })
-    const pizzaList = ref<Pizzas[]>(pizzaNew)
+    const category = reactive(store.state)
+    const pizzaList = reactive<Pizzas[]>(pizzaNew)
     const pizzaBasketItems = computed(() => store.state.items)
+    const sortedPizzas = computed(() => pizzaList.filter(p => {
+      if(store.state.sortCategory === 'all') return p
+     return p.category === store.state.sortCategory
+    }))
     
     const addPizzaBasket = (pizzaToAdd: Pizzas)=> {
       store.commit('ADD_PIZZA_CART', { payload: pizzaToAdd })
     }
     
     return {
-      pizzaList, 
       addPizzaBasket,
-      pizzaBasketItems
+      pizzaBasketItems,
+      sortedPizzas,
+      category
     }
   },
 })

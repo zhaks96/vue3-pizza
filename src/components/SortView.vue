@@ -1,27 +1,27 @@
 <template>
   <div class="container-sort">
     <div class="container-sort__block1">
-      <el-button v-for="sortByPizza in sortByPizzas" 
-        :key="`sortByPizza-${sortByPizza.id}`"
+      <el-button v-for="category in categories" 
+        :key="`category-${category.id}`"
         size="large" plain round class="el-button--gray" 
-        :class="{'active-btn-gray': checkedSortByPizza === sortByPizza.type}"
-        @click="checkedSortByPizza = sortByPizza.type">{{sortByPizza.name}}</el-button>
+        :class="{'active-btn-gray': checkedSortByPizza === category.type}"
+        @click="changeCategory(category.type)">{{category.name}}</el-button>
     </div>
     <div class="container-sort__block2">
       <el-icon style="margin-right: 7px;"><caret-bottom /></el-icon>
       <span class="sort-text">Сортировка по:</span>
       <el-dropdown>
         <span class="el-dropdown-link" style="min-width: 95px">
-          {{typeText.name}}
+          {{sortTypeStore.name}}
         </span>
         <template #dropdown>
-          <el-dropdown-menu v-model="type">
+          <el-dropdown-menu>
             <el-dropdown-item 
               v-for="sortType in sortTypes" 
               :key="`sort-type-${sortType.id}`" 
               class="dropdown-item"
-              :class="{'active-item': sortType.type === type}"
-              @click="changeSortType(sortType.type)">
+              :class="{'active-item': sortType.type === sortTypeStore.type}"
+              @click="changeSortType(sortType)">
               {{sortType.name}}
             </el-dropdown-item>
           </el-dropdown-menu>
@@ -34,50 +34,47 @@
 
 <script lang="ts">
 import { defineComponent, ref, computed, } from 'vue'
-import SortType from '@/types/SortType'
-import OrderTerm from '@/types/OrderTerm'
+import { useStore } from 'vuex'
 
 export default defineComponent({
   setup() {
-    const sortTypes = ref<SortType[]>([
-      {id:1, name: 'популярности', type: 'byPopular'},
-      {id:2, name: 'по цене', type: 'byPrice'},
-      {id:3, name: 'по алфавиту', type: 'byAlphabet'},
+    const store = useStore()
+    const sortTypes = ref([
+      {id:1, name: 'популярности', type: 'byPopular', sortOrder: false },
+      {id:2, name: 'по цене', type: 'byPrice', sortOrder: false },
+      {id:3, name: 'по алфавиту', type: 'byAlphabet', sortOrder: false },
     ])
 
-    const sortByPizzas = ref<SortType[]>([
-      {id:1, name: 'Все', type: 'all'},
-      {id:2, name: 'Мясные', type: 'byMeat'},
-      {id:3, name: 'Вегетарианская', type: 'byVegetarian'},
-      {id:4, name: 'Гриль', type: 'byGrill'},
-      {id:5, name: 'Острые', type: 'bySpicy'},
-      {id:6, name: 'Закрытые', type: 'byClosed'},
+    const categories = ref([
+      {id:1, name: 'Все', type: 'all',},
+      {id:2, name: 'Мясные', type: 0},
+      {id:3, name: 'Вегетарианская', type: 1},
+      {id:4, name: 'Гриль', type: 2},
+      {id:5, name: 'Острые', type: 3},
+      {id:6, name: 'Закрытые', type: 4},
     ])
 
-    let type = ref<OrderTerm>('byPopular')
-    let checkedSortByPizza = ref('all')
+    const sortTypeStore = computed(() => store.state.sortType)
+    // computed
+    const checkedSortByPizza = computed(() => store.state.sortCategory)
+    // * end computed
 
-    const changeSortType = (typeNew: OrderTerm) => {
-      console.log(typeNew)
-      type.value = typeNew
+    // methods
+    const changeSortType = (sortType: any) => {
+      store.commit('SORT_BY_TYPE', { sortType })
     }
-    const typeText = computed(() => {
-      return sortTypes.value.filter((v) => v.type === type.value)[0]
-    })
-
-    const pizzaList = computed(() => {
-      return []
-    })
-    
+    const changeCategory = (category: string | number) => {
+      store.commit('SORT_CATEGORY', { category })
+    }
+    // *end methods
 
     return {
       sortTypes,
-      type,
+      sortTypeStore,
       changeSortType,
-      typeText,
-      sortByPizzas,
+      changeCategory,
+      categories,
       checkedSortByPizza,
-      pizzaList
     }
   },
 })
