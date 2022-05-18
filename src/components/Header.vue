@@ -7,7 +7,7 @@
         <p>самая вкусная пицца во вселенной</p>
       </div>
     </div>
-    <el-button class="el-button--yellow" size="large" round>
+    <el-button class="el-button--yellow" size="large" round @click="$router.push({ name: 'Basket' })">
       <div class="basket-block">
         <span class="price">{{ pizzaBasketItems.totalPrice }} ₸</span>
         <span class="border-vertical"></span>
