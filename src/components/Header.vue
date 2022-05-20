@@ -1,6 +1,6 @@
 <template>
-  <div class="header">
-    <div class="header-logo">
+  <header class="header">
+    <div @click="$router.push({ name: 'Home' }, () => {})" class="header-logo">
       <img src="../assets/logo.png" width="38" height="38" />
       <div class="header-logo-inner">
         <h1>Vue PIZZA</h1>
@@ -17,7 +17,7 @@
         </div>
       </div>
     </el-button>
-  </div>
+  </header>
 </template>
 
 <script lang="ts">
@@ -49,6 +49,7 @@ export default defineComponent({
   &-logo {
     display: flex;
     align-items: center;
+    cursor: pointer;
     img {
       margin-right: 17px;
     }

@@ -6,7 +6,7 @@
         <h1>Корзина</h1>
       </div>
       <div class="header-flex">
-        <el-button class="btn-remove" text>
+        <el-button class="btn-remove" text @click="clearCart">
           <el-icon style="margin-right: 11px;" :size="20" color="#B6B6B6">
             <Delete />
           </el-icon>
@@ -22,7 +22,16 @@
           <p>{{ selectedType[basket.items[0].selectedType] }} тесто, {{ basket.items[0].selectedSize }} см.</p>
         </div>
       </div>
-      <el-input-number class="pizza-input-number" v-model="basket.totalCount" :min="1" />
+      <div class="basket-total">
+        <el-button circle @click.prevent="handleChange(basket, 'minus')" color="#FE5F1E" plain
+        :disabled="basket.totalCount === 1">
+          <el-icon><Minus /></el-icon>
+        </el-button>
+        <span class="basket-total-count">{{ basket.totalCount }}</span>
+        <el-button circle @click.prevent="handleChange(basket, 'plus')" color="#FE5F1E" plain>
+          <el-icon><Plus /></el-icon>
+        </el-button>
+      </div>
       <span class="price">{{ basket.items[0].price * basket.totalCount }} ₸</span>
       <el-button circle @click="removeItem(basket.items[0])">
         <el-icon><Close /></el-icon>
@@ -61,14 +70,27 @@ export default defineComponent({
     }
 
     const removeItem = (item: Pizzas) => {
-      console.log(item)
+      store.commit('REMOVE_CART_ITEM', { itemId: item.id })
     }
-    console.log(basketList)
+    const clearCart = () => {
+      store.commit('CLEAR_CART')
+    }
+    const handleChange = (basket: any, type: string) => {
+      if(type === 'plus'){
+        basket.totalCount++
+         store.commit('PLUS_CART_ITEM', { itemId: basket.items[0].id })
+      }else if(basket.totalCount > 1){
+        basket.totalCount--
+         store.commit('MINUS_CART_ITEM', { itemId: basket.items[0].id })
+      }
+    }
 
     return {
       basketList,
       selectedType,
-      removeItem
+      removeItem,
+      clearCart,
+      handleChange
     }
   },
 })
@@ -158,6 +180,22 @@ export default defineComponent({
       letter-spacing: 0.01em;
       color: #000000;
       margin: 0 auto;
+    }
+
+    .basket-total{
+      display: flex;
+      align-items: center;
+      &-count{
+        font-family: 'Proxima Nova';
+        font-style: normal;
+        font-weight: 700;
+        font-size: 22px;
+        line-height: 27px;
+        letter-spacing: 0.01em;
+        color: var(--v-black);
+        margin: 0 12px;
+
+      }
     }
   }
   .footer{

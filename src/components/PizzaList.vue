@@ -42,8 +42,8 @@ export default defineComponent({
     const pizzaNew = pizzas.map((m) => {
       return {
         ...m,
-        selectedType: 0,
-        selectedSize: 26
+        selectedType: m.types[0],
+        selectedSize: m.sizes[0]
       }
     })
     const category = reactive(store.state)

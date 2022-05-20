@@ -8,6 +8,12 @@ const getTotalSum = (obj: any, path: string) => {
   }, 0);
 };
 
+const sessionStorageUpdate = (newItems: LooseObject, totalPrice: number, totalCount: number) => {
+  sessionStorage.setItem('itemsPizza', JSON.stringify(newItems))
+  sessionStorage.setItem('totalCount', String(totalCount))
+  sessionStorage.setItem('totalPrice', String(totalPrice))
+}
+
 interface LooseObject {
   [key: string]: any
 }
@@ -43,15 +49,13 @@ export default createStore<State>({
         },
       }
 
-      const totalCount: any = getTotalSum(newItems, 'totalCount');
-      const totalPrice: any = getTotalSum(newItems, 'totalPrice');
+      const totalCount: any = getTotalSum(newItems, 'totalCount')
+      const totalPrice: any = getTotalSum(newItems, 'totalPrice')
 
       state.totalCount = totalCount
       state.totalPrice = totalPrice
 
-      sessionStorage.setItem('itemsPizza', JSON.stringify(newItems))
-      sessionStorage.setItem('totalCount', totalCount)
-      sessionStorage.setItem('totalPrice', totalPrice)
+      sessionStorageUpdate(newItems, totalCount, totalPrice)
 
       state.items = newItems
     },
@@ -60,6 +64,67 @@ export default createStore<State>({
     },
     SORT_BY_TYPE: (state, action) => {
       state.sortType = action.sortType
+    },
+    REMOVE_CART_ITEM: (state, action) => {
+      const newItems = {
+        ...state.items,
+      }
+      const totalCount: any = state.totalCount - newItems[action.itemId].totalCount
+      const totalPrice: any = state.totalPrice - newItems[action.itemId].totalPrice
+      delete newItems[action.itemId]
+      state.items = newItems
+      state.totalPrice = totalPrice
+      state.totalCount = totalCount
+      
+      sessionStorageUpdate(newItems, totalCount, totalPrice)
+    },
+    PLUS_CART_ITEM: (state, action) => {
+      const newPizzaItems = [
+        ...state.items[action.itemId].items,
+        state.items[action.itemId].items[0]
+      ]
+      const newItems = {
+        ...state.items,
+        [action.itemId]: {
+          items: newPizzaItems,
+          totalPrice: getTotalPrice(newPizzaItems),
+          totalCount: newPizzaItems.length
+        }
+      }
+      const totalCount: any = getTotalSum(newItems, 'totalCount')
+      const totalPrice: any = getTotalSum(newItems, 'totalPrice')
+
+      state.totalCount = getTotalSum(newItems, 'totalCount') as any
+      state.totalPrice = getTotalSum(newItems, 'totalPrice') as any
+      state.items = newItems
+
+      sessionStorageUpdate(newItems, totalCount, totalPrice)
+    },
+    MINUS_CART_ITEM: (state, action) => {
+      const oldItems = state.items[action.itemId].items
+      const newPizzaItems = oldItems.length > 1 ? state.items[action.itemId].items.slice(1) : oldItems
+      const newItems = {
+        ...state.items,
+        [action.itemId]: {
+          items: newPizzaItems,
+          totalPrice: getTotalPrice(newPizzaItems),
+          totalCount: newPizzaItems.length
+        }
+      }
+      const totalCount: any = getTotalSum(newItems, 'totalCount')
+      const totalPrice: any = getTotalSum(newItems, 'totalPrice')
+
+      state.totalCount = getTotalSum(newItems, 'totalCount') as any
+      state.totalPrice = getTotalSum(newItems, 'totalPrice') as any
+      state.items = newItems
+
+      sessionStorageUpdate(newItems, totalCount, totalPrice)
+    },
+    CLEAR_CART:(state) => {
+      state.items = {}
+      state.totalPrice = 0
+      state.totalCount = 0
+      sessionStorageUpdate({}, 0, 0)
     }
   },
   modules: {
