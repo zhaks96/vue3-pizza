@@ -8,10 +8,10 @@ const getTotalSum = (obj: any, path: string) => {
   }, 0);
 };
 
-const sessionStorageUpdate = (newItems: LooseObject, totalPrice: number, totalCount: number) => {
-  sessionStorage.setItem('itemsPizza', JSON.stringify(newItems))
-  sessionStorage.setItem('totalCount', String(totalCount))
-  sessionStorage.setItem('totalPrice', String(totalPrice))
+const sessionStorageUpdate = (newItems: LooseObject, totalCount: number, totalPrice: number) => {
+  localStorage.setItem('itemsPizza', JSON.stringify(newItems))
+  localStorage.setItem('totalCount', String(totalCount))
+  localStorage.setItem('totalPrice', String(totalPrice))
 }
 
 interface LooseObject {
@@ -28,9 +28,9 @@ export interface State {
 
 export default createStore<State>({
   state: {
-    items: JSON.parse(sessionStorage.getItem('itemsPizza') || '{}'),
-    totalPrice: sessionStorage.getItem('totalPrice') ? Number(sessionStorage.getItem('totalPrice')) : 0,
-    totalCount: sessionStorage.getItem('totalCount') ? Number(sessionStorage.getItem('totalCount')) : 0,
+    items: JSON.parse(localStorage.getItem('itemsPizza') || '{}'),
+    totalPrice: localStorage.getItem('totalPrice') ? Number(localStorage.getItem('totalPrice')) : 0,
+    totalCount: localStorage.getItem('totalCount') ? Number(localStorage.getItem('totalCount')) : 0,
     sortCategory: 'all',
     sortType: { id:1, name: 'популярности', type: 'byPopular', sortOrder: false }
   },

@@ -1,29 +1,34 @@
 <template>
-  <div class="pizza-list-container">
-    <div v-for="item in sortedPizzas" :key="`pizza-${item.id}`" class="pizza-list-wrap">
-      <el-image class="pizza-img" :src="item.imageUrl" fit="contain" />
-      <h4>{{ item.name }}</h4>
-      <div class="pizza-types-size">
-        <div style="margin-bottom: 7px">
-          <el-radio-group v-model="item.selectedType" text-color="#2C2C2C" fill="#FFFFFF">
-            <el-radio-button :label="0" :disabled="!item.types.includes(0)">тонкое</el-radio-button>
-            <el-radio-button :label="1" :disabled="!item.types.includes(1)">традиционное</el-radio-button>
+  <div>
+    <div v-if="load" class="pizza-list-container">
+      <Skeleton v-for="index in [...new Array(sortedPizzas.length)]" :key="`skeleton-${index}`"  />
+    </div>
+    <div v-else class="pizza-list-container">
+      <div v-for="item in sortedPizzas" :key="`pizza-${item.id}`" class="pizza-list-wrap">
+        <el-image class="pizza-img" :src="item.imageUrl" fit="contain" />
+        <h4>{{ item.name }}</h4>
+        <div class="pizza-types-size">
+          <div style="margin-bottom: 7px">
+            <el-radio-group v-model="item.selectedType" text-color="#2C2C2C" fill="#FFFFFF">
+              <el-radio-button :label="0" :disabled="!item.types.includes(0)">тонкое</el-radio-button>
+              <el-radio-button :label="1" :disabled="!item.types.includes(1)">традиционное</el-radio-button>
+            </el-radio-group>
+          </div>
+          <el-radio-group v-model="item.selectedSize" text-color="#2C2C2C" fill="#FFFFFF">
+            <el-radio-button :label="26" :disabled="!item.sizes.includes(26)">26 см.</el-radio-button>
+            <el-radio-button :label="30" :disabled="!item.sizes.includes(30)">30 см.</el-radio-button>
+            <el-radio-button :label="40" :disabled="!item.sizes.includes(40)">40 см.</el-radio-button>
           </el-radio-group>
         </div>
-        <el-radio-group v-model="item.selectedSize" text-color="#2C2C2C" fill="#FFFFFF">
-          <el-radio-button :label="26" :disabled="!item.sizes.includes(26)">26 см.</el-radio-button>
-          <el-radio-button :label="30" :disabled="!item.sizes.includes(30)">30 см.</el-radio-button>
-          <el-radio-button :label="40" :disabled="!item.sizes.includes(40)">40 см.</el-radio-button>
-        </el-radio-group>
-      </div>
-      <div class="pizza-footer">
-        <span class="price">от {{item.price}} ₸</span>
-        <el-button round plain size="large" type="warning" @click="addPizzaBasket(item)">
-          <el-icon style="margin-right: 8px"><Plus /></el-icon> Добавить
-          <span class="basket-count" v-if="pizzaBasketItems && pizzaBasketItems[item.id]">
-            {{ pizzaBasketItems[item.id].totalCount }}
-          </span>
-        </el-button>
+        <div class="pizza-footer">
+          <span class="price">от {{item.price}} ₸</span>
+          <el-button round plain size="large" type="warning" @click="addPizzaBasket(item)">
+            <el-icon style="margin-right: 8px"><Plus /></el-icon> Добавить
+            <span class="basket-count" v-if="pizzaBasketItems && pizzaBasketItems[item.id]">
+              {{ pizzaBasketItems[item.id].totalCount }}
+            </span>
+          </el-button>
+        </div>
       </div>
     </div>
   </div>
@@ -34,10 +39,15 @@ import { computed, defineComponent, reactive, ref } from 'vue'
 import { useStore } from 'vuex'
 import pizzas from '@/assets/pizzas'
 import Pizzas from '@/types/Pizzas'
+import Skeleton from '@/components/Skeleton.vue'
 
 export default defineComponent({
+  components: {
+    Skeleton
+  },
   setup() {
     const store = useStore()
+    const load = ref(true)
 
     const pizzaNew = pizzas.map((m) => {
       return {
@@ -51,18 +61,22 @@ export default defineComponent({
     const pizzaBasketItems = computed(() => store.state.items)
     const sortedPizzas = computed(() => pizzaList.filter(p => {
       if(store.state.sortCategory === 'all') return p
-     return p.category === store.state.sortCategory
+      return p.category === store.state.sortCategory
     }))
     
     const addPizzaBasket = (pizzaToAdd: Pizzas)=> {
       store.commit('ADD_PIZZA_CART', { payload: pizzaToAdd })
     }
+    setTimeout(() => {
+      load.value = false
+    }, 1000)
     
     return {
       addPizzaBasket,
       pizzaBasketItems,
       sortedPizzas,
-      category
+      category,
+      load
     }
   },
 })
@@ -74,11 +88,16 @@ export default defineComponent({
   flex-wrap: wrap;
   width: calc(100% + 36px);
   margin-left: -18px;
+  justify-content: space-between;
   .pizza-list-wrap{
     width: 280px;
     display: flex;
     flex-direction: column;
     margin: 18px;
+    transition: all 0.2s ease-in-out;
+    &:hover{
+      transform: scale(1.03);
+    }
     .pizza-img{
       width: 100%;
       height: 260px;
