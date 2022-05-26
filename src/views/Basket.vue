@@ -6,24 +6,24 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from 'vue'
-import { useStore } from 'vuex'
+import { computed, defineComponent, } from 'vue'
+import { useStore, } from 'vuex'
 import BasketEmpty from './Basket/Empty.vue'
 import BasketList from './Basket/List.vue'
 
 export default defineComponent({
   components: {
     BasketEmpty,
-    BasketList
+    BasketList,
   },
   setup() {
     const store = useStore()
-    const isEmpty = computed(() => Object.keys(store.state.items).length > 0)
-    return{
-      isEmpty
+    const isEmpty = computed(() => Object.keys(store.state.items,).length > 0,)
+    return {
+      isEmpty,
     }
   },
-})
+},)
 </script>
 
 <style lang="scss" scoped>

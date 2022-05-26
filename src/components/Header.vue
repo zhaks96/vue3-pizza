@@ -23,17 +23,17 @@
 <script lang="ts">
 import basket from '@/icons/basket.vue'
 import { computed, defineComponent, } from 'vue'
-import { useStore } from 'vuex'
+import { useStore, } from 'vuex'
 
 export default defineComponent({
   components: { basket, },
   setup() {
     const store = useStore()
 
-    const pizzaBasketItems = computed(() => store.state)
+    const pizzaBasketItems = computed(() => store.state,)
 
     return {
-      pizzaBasketItems
+      pizzaBasketItems,
     }
   },
 },)

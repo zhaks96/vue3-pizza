@@ -35,8 +35,8 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, reactive, ref } from 'vue'
-import { useStore } from 'vuex'
+import { computed, defineComponent, onMounted, reactive, ref, } from 'vue'
+import { useStore, } from 'vuex'
 import axios from 'axios'
 import pizzas from '@/assets/pizzas'
 import Pizzas from '@/types/Pizzas'
@@ -44,44 +44,44 @@ import Skeleton from '@/components/Skeleton.vue'
 
 export default defineComponent({
   components: {
-    Skeleton
+    Skeleton,
   },
   setup() {
     const store = useStore()
-    const load = ref(true)
+    const load = ref(true,)
 
-    const pizzaNew = pizzas.map((m) => {
+    const pizzaNew = pizzas.map((m,) => {
       return {
         ...m,
         selectedType: m.types[0],
-        selectedSize: m.sizes[0]
+        selectedSize: m.sizes[0],
       }
-    })
-    const category = reactive(store.state)
-    const pizzaList = reactive<Pizzas[]>(pizzaNew)
-    const pizzaBasketItems = computed(() => store.state.items)
-    const sortedPizzas = computed(() => pizzaList.filter(p => {
-      if(store.state.sortCategory === 'all') return p
+    },)
+    const category = reactive(store.state,)
+    const pizzaList = reactive<Pizzas[]>(pizzaNew,)
+    const pizzaBasketItems = computed(() => store.state.items,)
+    const sortedPizzas = computed(() => pizzaList.filter((p,) => {
+      if (store.state.sortCategory === 'all') return p
       return p.category === store.state.sortCategory
-    }))
+    },),)
     
-    const addPizzaBasket = (pizzaToAdd: Pizzas)=> {
-      store.commit('ADD_PIZZA_CART', { payload: pizzaToAdd })
+    const addPizzaBasket = (pizzaToAdd: Pizzas,)=> {
+      store.commit('ADD_PIZZA_CART', { payload: pizzaToAdd, },)
     }
     setTimeout(() => {
       load.value = false
-    }, 1000)
+    }, 1000,)
 
     onMounted(() => {
       testServer()
-    })
+    },)
 
     const testServer = async function() {
-      await axios.get('/api/get').then((response) => {
-        console.log(response)
-      }).catch((error) => {
-        console.error(error)
-      })
+      await axios.get('/api/get',).then((response,) => {
+        console.log(response,)
+      },).catch((error,) => {
+        console.error(error,)
+      },)
     }
     
     return {
@@ -92,7 +92,7 @@ export default defineComponent({
       load,
     }
   },
-})
+},)
 </script>
 
 <style lang="scss" scoped>

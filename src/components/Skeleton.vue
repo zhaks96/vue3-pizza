@@ -15,12 +15,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
-import { ContentLoader } from 'vue-content-loader'
+import { defineComponent, } from 'vue'
+import { ContentLoader, } from 'vue-content-loader'
 
 export default defineComponent({
   components: {
-    ContentLoader
-  }
-})
+    ContentLoader,
+  },
+},)
 </script>

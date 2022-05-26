@@ -7,7 +7,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, } from 'vue';
+import { defineComponent, } from 'vue'
 import SortView from '@/components/SortView.vue'
 import PizzaList from '@/components/PizzaList.vue'
 
@@ -15,9 +15,9 @@ export default defineComponent({
   name: 'Home',
   components: {
     SortView,
-    PizzaList
+    PizzaList,
   },
-},);
+},)
 </script>
 
 <style lang="scss" scoped>

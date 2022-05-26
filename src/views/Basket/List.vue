@@ -49,39 +49,39 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from 'vue'
-import { useStore } from 'vuex'
+import { computed, defineComponent, } from 'vue'
+import { useStore, } from 'vuex'
 import Pizzas from '@/types/Pizzas'
 
 export default defineComponent({
   setup() {
     const store = useStore()
     const basketList = computed(() => {
-      const { items } = store.state
-      const newBaketList = Object.keys(items).map((key) => {
+      const { items, } = store.state
+      const newBaketList = Object.keys(items,).map((key,) => {
         return items[key]
-      })
+      },)
       return newBaketList.flat()
-    })
+    },)
 
     const selectedType = {
       0: 'тонкое',
-      1: 'традиционное'
+      1: 'традиционное',
     }
 
-    const removeItem = (item: Pizzas) => {
-      store.commit('REMOVE_CART_ITEM', { itemId: item.id })
+    const removeItem = (item: Pizzas,) => {
+      store.commit('REMOVE_CART_ITEM', { itemId: item.id, },)
     }
     const clearCart = () => {
-      store.commit('CLEAR_CART')
+      store.commit('CLEAR_CART',)
     }
-    const handleChange = (basket: any, type: string) => {
-      if(type === 'plus'){
+    const handleChange = (basket: any, type: string,) => {
+      if (type === 'plus') {
         basket.totalCount++
-         store.commit('PLUS_CART_ITEM', { itemId: basket.items[0].id })
-      }else if(basket.totalCount > 1){
+        store.commit('PLUS_CART_ITEM', { itemId: basket.items[0].id, },)
+      } else if (basket.totalCount > 1) {
         basket.totalCount--
-         store.commit('MINUS_CART_ITEM', { itemId: basket.items[0].id })
+        store.commit('MINUS_CART_ITEM', { itemId: basket.items[0].id, },)
       }
     }
 
@@ -90,10 +90,10 @@ export default defineComponent({
       selectedType,
       removeItem,
       clearCart,
-      handleChange
+      handleChange,
     }
   },
-})
+},)
 </script>
 
 <style lang="scss" scoped>

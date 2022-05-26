@@ -9,21 +9,21 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, } from 'vue'
 import basketEmpty from '@/icons/basketEmpty.vue'
 
 export default defineComponent({
   components: {
-    basketEmpty
+    basketEmpty,
   },
   setup() {
     const title = 'Корзина пустая 😕'
 
     return {
-      title
+      title,
     }
   },
-})
+},)
 </script>
 
 <style lang="scss" scoped>
