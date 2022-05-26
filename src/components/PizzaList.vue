@@ -35,8 +35,9 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, reactive, ref } from 'vue'
+import { computed, defineComponent, onMounted, reactive, ref } from 'vue'
 import { useStore } from 'vuex'
+import axios from 'axios'
 import pizzas from '@/assets/pizzas'
 import Pizzas from '@/types/Pizzas'
 import Skeleton from '@/components/Skeleton.vue'
@@ -70,13 +71,25 @@ export default defineComponent({
     setTimeout(() => {
       load.value = false
     }, 1000)
+
+    onMounted(() => {
+      testServer()
+    })
+
+    const testServer = async function() {
+      await axios.get('/api/get').then((response) => {
+        console.log(response)
+      }).catch((error) => {
+        console.error(error)
+      })
+    }
     
     return {
       addPizzaBasket,
       pizzaBasketItems,
       sortedPizzas,
       category,
-      load
+      load,
     }
   },
 })
